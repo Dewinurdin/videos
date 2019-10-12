@@ -10,6 +10,11 @@ class App extends React.Component {
     selectedVideo: null
   };
 
+  componentDidMount() {
+    // on initial load, render this keyword as a default search on the screen
+    this.onTermSubmit('funny video');
+  }
+
   onTermSubmit = async term => {
     const response = await youtube.get('/search', {
       params: {
@@ -17,7 +22,12 @@ class App extends React.Component {
       }
     });
     // console.log(response);
-    this.setState({ videos: response.data.items });
+    this.setState({ 
+      videos: response.data.items,
+      // when we do a search go ahead and use the first video as a default set 
+      // and make it appear on the screen
+      selectedVideo: response.data.items[0]
+    });
   };
 
   onVideoSelect = (video) => {
